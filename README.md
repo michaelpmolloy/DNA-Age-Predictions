@@ -85,11 +85,6 @@ The elastic-net regression model is using the ‘glmnet’ package in R studio. 
 
 
 
-
-
-
-
-
 ## Findings 
 ## Conclusions 
 ## Acknowledgements
