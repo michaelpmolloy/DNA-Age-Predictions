@@ -58,7 +58,7 @@ The UMAP transformation is computationally expensive therefore 16 features were 
 
 
 
-<img src="Images/UmapPlot.jpg" alt="UMAP Plot" width="300" height="200">
+<img src="Images/UmapPlot.jpg" alt="UMAP Plot" width="700" height="300">
 
 
 ## Neural Networks 
