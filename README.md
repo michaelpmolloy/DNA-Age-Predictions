@@ -56,7 +56,9 @@ Principal component analysis is first applied producing 255 principal components
 
 The UMAP transformation is computationally expensive therefore 16 features were the maximum number of features it could produce. Through experimentation and testing a value of 20 neighbours was found to give the best results allowing both global and local features to be preserved in the reduced data. The optimal minimum distance was found to be 0.1. The resulting lower-dimensional dataset showed significant separation between gender and some separation of different ages as shown below. 
 
-![UMAP plot](Images/UmapPlot.jpg)
+
+
+<img src="Images/UmapPlot.jpg" alt="UMAP Plot" width="300" height="200">
 
 
 ## Neural Networks 
