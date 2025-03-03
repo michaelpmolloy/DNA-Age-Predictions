@@ -209,9 +209,6 @@ for (i in 0:10) {
 accuracy
 ```
 
-
-
-
 ```{r}
 plot(accuracy$alpha, accuracy$mse, type = "b", xlab = "Alpha value", ylab = "Mean square error")
 ```
@@ -277,8 +274,8 @@ df <- data.frame(DNAumap$layout[,1], DNAumap$layout[,2], DNA[,1], DNA[,2])
 colnames(df) <- c("UMAP1","UMAP2", "Gender", "Age")
 umapMat <- as.matrix(df[-3], header = T)
 Gender <- factor(df$Gender, levels=c(0,1), labels=c("Female", "Male")) 
-ggplot(umapMat, aes(x =UMAP1, y= UMAP2, color = Age, shape = Gender ))+ geom_point()  +  scale_shape_discrete(breaks = ~ .x[!is.na(.x)])
-
+UMAPplot <- ggplot(umapMat, aes(x =UMAP1, y= UMAP2, color = Age, shape = Gender ))+ geom_point()  +  scale_shape_discrete(breaks = ~ .x[!is.na(.x)])
+ggsave("UMAPplot.png", UMAPplot)
 ```
 
 
@@ -340,7 +337,9 @@ dfpca <- data.frame(DNApca$x[,1], DNApca$x[,2], factor(DNA[,1], levels=c(0,1), l
 colnames(dfpca) <-c("PCA1", "PCA2", "Gender", "Age") 
 
 
-ggplot(dfpca, aes(x = PCA1, y= PCA2, color = Age, shape = Gender)) + geom_point()
+PCAplot <- ggplot(dfpca, aes(x = PCA1, y= PCA2, color = Age, shape = Gender)) + geom_point()
+
+ggsave("PCAplot.png", PCAplot)
 ```
 
 

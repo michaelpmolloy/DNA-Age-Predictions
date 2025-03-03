@@ -50,7 +50,7 @@ The dataset contained 0.24% missing values which were imputed based on gender as
 
 Principal component analysis is first applied producing 255 principal components. The PCA plot of the first two components below displayed a significant male outlier that had a PCA 2 component of over 30 which was significantly larger than the remaining samples therefore it is concluded it is an outlier and removed. The PCA plot showed significant seperation of gender in the PCA 1 component and slight age seperation in the PCA 2 component. 
 
-![PCA plot](Images/PcaPlot.jpg)
+![PCA plot](Images/PCAplot.png)
 
 ## UMAP 
 
@@ -58,10 +58,14 @@ The UMAP transformation is computationally expensive therefore 16 features were 
 
 
 
-<img src="Images/UmapPlot.jpg" alt="UMAP Plot" width="700" height="300">
+<img src="Images/UMAPplot.png" alt="UMAP Plot">
 
 
 ## Neural Networks 
+
+
+
+
 
 ### UMAP Neural Network
 
@@ -74,7 +78,7 @@ The UMAP transformation is computationally expensive therefore 16 features were 
 
 
 ## Elastic-net regression 
-* Elastic net regression is a linear hybrid regression technique which uses the Lasso penalty and Ridge penalty to fit data to a linear model with the lowest Residual Sum of Squares (RSS). The Lasso and Ridge penalties are used to prevent overfitting with each penalty having a specific purpose. The elastic-net regression combines the benefits of Lasso and Ridge regression allowing the model to both shrink and remove parameters. An elastic-net regression is therefore suitable for the high-dimensional methylation data set as it can shrink or remove variables allowing for correlated or unimportant variables to be removed. The loss function used by the elastic-net regression is shown below. 
+Elastic net regression is a linear hybrid regression technique which uses the Lasso penalty and Ridge penalty to fit data to a linear model with the lowest Residual Sum of Squares (RSS). The Lasso and Ridge penalties are used to prevent overfitting with each penalty having a specific purpose. The elastic-net regression combines the benefits of Lasso and Ridge regression allowing the model to both shrink and remove parameters. An elastic-net regression is therefore suitable for the high-dimensional methylation data set as it can shrink or remove variables allowing for correlated or unimportant variables to be removed. The loss function used by the elastic-net regression is shown below. 
 
 ![elastic-net formula](Images/elasticNetFormula.jpg)
 
