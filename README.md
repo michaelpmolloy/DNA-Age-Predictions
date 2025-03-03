@@ -88,7 +88,7 @@ Elastic net regression is a linear hybrid regression technique which uses the La
 The elastic-net regression model is using the ‘glmnet’ package in R studio. The ‘cv.glmnet’ function uses 10 fold cross validation to train, test and optimise the model parameters while using only the training data. The optimal model achieved a standard error of 2.605 years and an R squared coefficient of 0.975. It used 102 different methylation sites to predict age. The predictions and real age values are visually presented below. The model was very accurate at predicting young people between the ages 10 to 20, however it was marginally less accurate at predicting older people between ages 35 to 60.
 
 
-![elastic-net prediction accuracy plot](Images/elasticNetAccuracyPlot.jpg)
+![elastic-net prediction accuracy plot](Images/elasticNetAccuracyPlot.png)
 
 
 ## Comparing models 
@@ -96,7 +96,7 @@ The elastic-net regression model is using the ‘glmnet’ package in R studio. 
 The data contains two major age groups in the data with a young group and an old group. The PCA neural network and elastic-net were both able to accurately predict the age of younger people as shown in figure 10. The UMAP trained neural network did not predict the age of the young cohort accurately with most predictions being older than their real age. The accuracy of both neural networks reduced significantly when predicting the age of the older cohort. The elastic-net model outperformed both neural network models with very accurate predictions in the older cohort, and with only a small number of predictions having any significant error.
 
 
-
+![all models prediction accuracy plot](Images/allModelsAccuracyPlot.png)
 
 
 
