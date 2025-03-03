@@ -61,7 +61,7 @@ Principal component analysis is first applied producing 255 principal components
 The best PCA trained neural network relied on a neural network with a 60 neural input layer, 4 hidden layers decreasing from 40 to 5, then an output layer. Three dropout layers were implemented between the first four layers to ensure the neural network did not over-train. The optimal model achieved a standard error of 5.378 years.
 
 
-![PCA Neural Network Plot](Images/PcaNnAccuracyPlot.jpg)
+![PCA Neural Network Plot](Images/PcaNnAccuracyPlot.png)
 
 
 
