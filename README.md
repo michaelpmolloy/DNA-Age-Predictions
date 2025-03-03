@@ -16,13 +16,10 @@ DNA methylation is an epigenetic process used by the body to influence gene expr
 
 ## Project Objective
 
-* Create an epigenetic clock model to predict chronological age from a person’s DNA methylation profile
+* Create an epigenetic clock model to predict chronological age from a person’s DNA methylation profile using elastic-net regression and neural networks
 * Provide insight into the relative prediction accuracy of elastic-net and neural networks when applied to high-dimensional data sets
 * Compare the dimensionality reduction capabilities of principle component analysis to Uniform Manifold Approximation 
 
-The objective of this research is to create an epigenetic clock model to predict chronological age from a person’s DNA methylation profile. Elastic-net regression and neural networks will be used to model age, and the performance of both models compared.
-
-This project provides insight into the relative prediction accuracy of elastic-net and neural networks on age estimation when applied to high-dimensional datasets. While there is research available that applies these methods singularly, there isn't extensive research on their comparative predictive abilities when applied to the same data. The best neural network will be compared against the best elastic net regression to compare the two methods. The two neural networks are compared to check the dimensionality reduction capabilities of PCA and UMAP. 
 
 ## Dataset 
 
