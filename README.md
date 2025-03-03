@@ -63,18 +63,21 @@ The UMAP transformation is computationally expensive therefore 16 features were 
 
 ## Neural Networks 
 
-
-
-
+Neural networks can be applied to methylation data due to their ability to handle large complex data sets and learn non-linear relationships between variables. Dimensionality reduction is used to reduce the number of input features therefore decreasing the amount of data needed to train the network. Larger neural networs need more samples needed to fully train all the parameters in the model. DNA methylation samples are costly therefore dimesnionality reduction allowed neural networks to be trained with limited samples/budget. 
 
 ### UMAP Neural Network
 
+The best UMAP trained neural network used all 16 components and achieved a standard error of 9.08 years and an R squared value of 0.695 and presented in table 2. The best UMAP trained neural network relied on a neural network with a 16 neural input layer, 4 hidden layers decreasing from 14 to 5, then an output layer. Three dropout layers were implemented between the first four layers. 
+
+![UMAP Neural Network Plot](Images/UmapNnAccuracyPlot.jpg)
 
 ### PCA Neural Network
 
+The best PCA trained neural network relied on a neural network with a 60 neural input layer, 4 hidden layers decreasing from 40 to 5, then an output layer. Three dropout layers were implemented between the first four layers to ensure the neural network did not over-train. The optimal model achieved a standard error of 5.378 years.
 
 
 
+![PCA Neural Network Plot](Images/PcaNnAccuracyPlot.jpg)
 
 
 ## Elastic-net regression 
@@ -85,7 +88,7 @@ Elastic net regression is a linear hybrid regression technique which uses the La
 The elastic-net regression model is using the ‘glmnet’ package in R studio. The ‘cv.glmnet’ function uses 10 fold cross validation to train, test and optimise the model parameters while using only the training data. The optimal model achieved a standard error of 2.605 years and an R squared coefficient of 0.975. It used 102 different methylation sites to predict age. The predictions and real age values are visually presented below. The model was very accurate at predicting young people between the ages 10 to 20, however it was marginally less accurate at predicting older people between ages 35 to 60.
 
 
-![elastic-net prediction accuracy plot](Images/elasticNetFormula.jpg)
+![elastic-net prediction accuracy plot](Images/elasticNetAccuracy.jpg)
 
 
 
