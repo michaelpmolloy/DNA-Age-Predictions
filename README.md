@@ -76,7 +76,7 @@ The UMAP transformation is computationally expensive therefore 16 features were 
 
 The best UMAP trained neural network used all 16 components and achieved a standard error of 9.08 years and an R squared value of 0.695 and presented in table 2. The best UMAP trained neural network relied on a neural network with a 16 neural input layer, 4 hidden layers decreasing from 14 to 5, then an output layer. Three dropout layers were implemented between the first four layers. 
 
-![UMAP Neural Network Plot](Images/UmapNnAccuracyPlot.jpg)
+![UMAP Neural Network Plot](Images/UmapNnAccuracyPlot.png)
 
 
 
