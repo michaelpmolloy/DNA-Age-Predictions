@@ -1,0 +1,364 @@
+---
+title: "DNA methylation analysis"
+output: html_document
+date: "2024-08-10"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+setwd(getwd())
+
+```
+
+```{r include=F}
+library(csv)
+library(dplyr)
+library(glm2)
+library(glmnet)
+library(devtools)
+library(pak)
+library(mice)
+library(stringr)
+library(umap)
+library(caret)
+library(plotly)
+library(readr)
+library(DT)
+library(neuralnet)
+```
+
+
+                                                                                                                  
+
+### Reading data into a dataframe 
+```{r}
+DNAm <- data.frame(read.csv("/Users/michaelmolloy/Desktop/BGSMethylation.csv", header = T))
+```
+
+
+```{r}
+(sum(is.na(DNAm))/(nrow(DNAm)*(ncol(DNAm))))*100
+```
+There is therefore 0.24% missing values in the dataset 
+
+```{r}
+rownames(DNAm) <- DNAm[,1] #adding row names also adds the column names  
+DNAm <- DNAm[,-1] #removing the rowname column from the dataset as it is now a duplicate
+DNAm <- as.matrix(DNAm) #converting data frame to double type matrix due to space efficiency 8Gb -> 1Gb
+DNAmTr <- t(DNAm) #transposing data set
+rm(DNAm) #removing OG data to free up space
+```
+ 
+
+
+
+### Preparing the age, sex data into double type data with string rownames in a matrix 
+
+```{r}
+#Reading in data set and removing the 'twin' variable as all values are 0 therefore no twins in the data set
+DNAmINFO <- data.frame(read.csv("/Users/michaelmolloy/Desktop/BGSInfo.csv", header = T))  %>% select(-c(X, Twin))
+rownames(DNAmINFO) <- DNAmINFO$ID 
+DNAmINFO <- DNAmINFO[,-1]
+
+#Changing the sex variable to binary 
+DNAmINFO[DNAmINFO$Sex == "M"] <- DNAmINFO$Sex[DNAmINFO$Sex == "M"] <- 1
+DNAmINFO[DNAmINFO$Sex == "F"] <- DNAmINFO$Sex[DNAmINFO$Sex == "F"] <- 0
+
+DNAmINFO$Sex <- as.double(DNAmINFO$Sex)
+DNAmINFO$Age <- as.double(DNAmINFO$Age)
+
+sapply(DNAmINFO, typeof) #checking the variab;e type to ensure a double type matrix
+
+DNAmINFO <- as.matrix(DNAmINFO)
+```
+
+
+
+### Merging the two dataframes to have age and DNAm data in the same dataframe
+
+
+```{r}
+DNA <- merge(DNAmINFO, DNAmTr, by = "row.names", all = T) #merging changes 
+DNA <- DNA[DNA[,2] < 70,] #removed the 75 year old sample as min-max scaling will be sued
+DNA <- DNA[DNA[,1] !=  "I327",]
+row.names(DNA) <- DNA[,1]
+DNA <- DNA[,-1]
+DNA <- as.matrix(DNA)
+
+#(DNAmINFO)
+rm(DNAmTr)
+gc() #to ensure the space is freed up by R 
+```
+
+
+
+### Splitting data into male and female and replacing na values
+
+```{r}
+#adding index column to DNA datasets
+indexCol <- seq_len(nrow(DNA))
+
+DNA <- cbind(Index = indexCol, DNA)
+
+
+```
+
+
+```{r}
+DNAmale <- DNA[DNA[,2]==1,]
+DNAfemale <- DNA[DNA[,2]==0,]
+rm(DNA)
+for(i in 1:ncol(DNAmale)){
+  DNAmale[is.na(DNAmale[,i]), i] <- mean(DNAmale[,i], na.rm = TRUE)
+}
+
+for(i in 1:ncol(DNAfemale)){
+  DNAfemale[is.na(DNAfemale[,i]), i] <- mean(DNAfemale[,i], na.rm = TRUE)
+}
+
+DNA <- rbind(DNAmale, DNAfemale)
+rm(DNAmale, DNAfemale)
+```
+
+
+now the index column will be used to get the data in the original order 
+```{r}
+DNA <- DNA[order(DNA[,1]),]
+DNA <- DNA[,-1]
+```
+
+
+
+```{r}
+hist(DNA[,2], breaks = 10, xlab = "Age")
+ageDist <- as.data.frame(DNAmINFO) 
+```
+
+
+
+
+
+
+### Splitting the data into test and train sets
+
+```{r}
+set.seed(123)
+Index <- sample(nrow(DNA), size = nrow(DNA) * 0.8, replace = F)
+
+TrainDNA <- DNA[Index,]
+TestDNA <- DNA[-Index,]
+```
+
+
+
+```{r}
+y.TrainDNA <- TrainDNA[,2, drop = F] # drop = F keeps the row names to stop it being converted to a vector
+x.TrainDNA <- TrainDNA[,-2]
+```
+
+```{r}
+y.TestDNA <- TestDNA[,2, drop = F] # drop = F keeps the row names to stop it being converted to a vector
+x.TestDNA <- TestDNA[,-2]
+```
+
+
+```{r}
+#rm(DNA)
+rm(TestDNA)
+rm(TrainDNA)
+gc()
+```
+
+
+
+### Training elastic net models
+
+Below i am training 11 different models with different alpha values 
+```{r}
+set.seed(123)
+models <- list()
+
+for(i in 0:10) {
+  modelName <- paste0("alpha", i/10)
+  models[[modelName]] <- cv.glmnet(x.TrainDNA, y.TrainDNA, type.measure="mse", alpha = i/10, family="gaussian")
+}     
+```
+
+### Testing the accuracy of the trained models 
+
+```{r}
+set.seed(123)
+accuracy <- data.frame()
+for (i in 0:10) {
+  modelName <- paste0("alpha", i/10)
+
+  predictions <- predict(models[[modelName]], 
+                         s = models[[modelName]]$lambda.1se, new = x.TestDNA)
+  #lambda <- models[[modelName]]$lambda.min
+  
+  mse <- mean((y.TestDNA - predictions)^2)
+  rmse <- sqrt(mse)
+  temp <- data.frame(alpha = i/10, mse= mse,rmse = rmse, modelName = modelName)
+  accuracy <- rbind(accuracy, temp)
+  
+}
+
+```
+
+```{r}
+accuracy
+```
+
+
+
+
+```{r}
+plot(accuracy$alpha, accuracy$mse, type = "b", xlab = "Alpha value", ylab = "Mean square error")
+```
+
+
+
+```{r}
+set.seed(123)
+alpha0.5_preds <- predict(models[["alpha0.5"]], 
+                         s = models[["alpha0.5"]]$lambda.1se, new = x.TestDNA)
+
+alpha0.5_preds
+
+par(pty="s")
+
+plot(alpha0.5_preds, y.TestDNA)
+abline(0,1)
+
+#write.csv(alpha0.5_preds, "elasticnetPreds.csv")
+
+
+```
+
+
+```{r}
+#coef(models[["alpha1"]], s = models[["alpha1"]]$lambda.1se)
+tmp_coeffs <- coef(models[["alpha0.5"]], s = "lambda.1se")
+data.frame(name = tmp_coeffs@Dimnames[[1]][tmp_coeffs@i + 1], coefficient = tmp_coeffs@x)
+```
+
+
+
+
+
+### UMAP dimensionality reduction
+
+```{r}
+custom.config = umap.defaults # Set of configurations
+custom.config$min_dist = 0.1 # change min_dist and n_neighbors
+custom.config$n_neighbors = 20
+custom.config$n_components = 16
+```
+
+
+
+
+```{r}
+set.seed(1)
+DNAumap <- umap(DNA[,-2], config=custom.config)
+```
+
+```{r}
+
+umapData <- as.matrix(merge(DNAmINFO, as.matrix(DNAumap$layout), by = "row.names", all = F))
+row.names(umapData) <- umapData[,1]
+umapData <- as.matrix(umapData[,-1])
+gc() #to ensure the space is freed up by R 
+```
+
+
+```{r}
+df <- data.frame(DNAumap$layout[,1], DNAumap$layout[,2], DNA[,1], DNA[,2])
+colnames(df) <- c("UMAP1","UMAP2", "Gender", "Age")
+umapMat <- as.matrix(df[-3], header = T)
+Gender <- factor(df$Gender, levels=c(0,1), labels=c("Female", "Male")) 
+ggplot(umapMat, aes(x =UMAP1, y= UMAP2, color = Age, shape = Gender ))+ geom_point()  +  scale_shape_discrete(breaks = ~ .x[!is.na(.x)])
+
+```
+
+
+
+The code below is used to write the csv files needed in the python neural network analysis
+```{r}
+#TrainUmap <- umapData[Index,]
+#TestUmap <- umapData[-Index,]
+
+#y.TrainUMAP <- TrainUmap[,2, drop = F] # drop = F keeps the row names 
+#x.TrainUMAP <- TrainUmap[,-c(1,2)]
+
+#y.TestUMAP <- TestUmap[,2, drop = F] # drop = F keeps the row names 
+#x.TestUMAP <- TestUmap[,-c(1,2)]
+
+#write.csv(y.TrainUMAP, "yTrainUMAP.csv")
+#write.csv(x.TrainUMAP, "xTrainUMAP.csv")
+#write.csv(y.TestUMAP, "yTestUMAP.csv")
+#write.csv(x.TestUMAP, "xTestUMAP.csv")
+```
+
+
+
+### PCA dimensionality reduction
+
+```{r}
+DNApca <- prcomp(DNA[,-2],rank = 60, scale=F)
+
+pcaData <- DNApca$x
+
+pcaData<- as.matrix(merge(DNAmINFO, as.matrix(DNApca$x), by = "row.names", all = F))
+rownames(pcaData) <- pcaData[,1] 
+pcaData <- pcaData[,-1]
+
+```
+
+The code below is used to write the csv files needed in the python neural network analysis
+```{r}
+#TrainPCA <- pcaData[Index,]
+#TestPCA <- pcaData[-Index,]
+
+#y.TrainPCA <- TrainPCA[,2, drop = F] # drop = F keeps the row names 
+#x.TrainPCA <- TrainPCA[,-c(1,2)]
+
+#y.TestPCA <- TestPCA[,2, drop = F] # drop = F keeps the row names 
+#x.TestPCA <- TestPCA[,-c(1,2)]
+
+#write.csv(y.TrainPCA, "yTrainPCA.csv")
+#write.csv(x.TrainPCA, "xTrainPCA.csv")
+#write.csv(y.TestPCA, "yTestPCA.csv")
+#write.csv(x.TestPCA, "xTestPCA.csv")
+```
+
+
+
+
+```{r}
+dfpca <- data.frame(DNApca$x[,1], DNApca$x[,2], factor(DNA[,1], levels=c(0,1), labels=c("Female", "Male")) , DNA[,2])
+colnames(dfpca) <-c("PCA1", "PCA2", "Gender", "Age") 
+
+
+ggplot(dfpca, aes(x = PCA1, y= PCA2, color = Age, shape = Gender)) + geom_point()
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
