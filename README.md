@@ -46,24 +46,31 @@ The dataset contained 0.24% missing values which were imputed based on gender as
 ![drop-out regularisation diagram](Images/dropoutRegularisation.jpg)
 
 
-## Principal Component Analysis 
+## Neural Networks 
+
+Neural networks can be applied to methylation data due to their ability to handle large complex data sets and learn non-linear relationships between variables. Dimensionality reduction is used to reduce the number of input features therefore decreasing the amount of data needed to train the network. Larger neural networs need more samples needed to fully train all the parameters in the model. DNA methylation samples are costly therefore dimesnionality reduction allowed neural networks to be trained with limited samples/budget. 
+
+### Principal Component Analysis 
 
 Principal component analysis is first applied producing 255 principal components. The PCA plot of the first two components below displayed a significant male outlier that had a PCA 2 component of over 30 which was significantly larger than the remaining samples therefore it is concluded it is an outlier and removed. The PCA plot showed significant seperation of gender in the PCA 1 component and slight age seperation in the PCA 2 component. 
 
 ![PCA plot](Images/PCAplot.png)
 
-## UMAP 
+### PCA Neural Network
+
+The best PCA trained neural network relied on a neural network with a 60 neural input layer, 4 hidden layers decreasing from 40 to 5, then an output layer. Three dropout layers were implemented between the first four layers to ensure the neural network did not over-train. The optimal model achieved a standard error of 5.378 years.
+
+
+![PCA Neural Network Plot](Images/PcaNnAccuracyPlot.jpg)
+
+
+
+### UMAP 
 
 The UMAP transformation is computationally expensive therefore 16 features were the maximum number of features it could produce. Through experimentation and testing a value of 20 neighbours was found to give the best results allowing both global and local features to be preserved in the reduced data. The optimal minimum distance was found to be 0.1. The resulting lower-dimensional dataset showed significant separation between gender and some separation of different ages as shown below. 
 
-
-
 <img src="Images/UMAPplot.png" alt="UMAP Plot">
 
-
-## Neural Networks 
-
-Neural networks can be applied to methylation data due to their ability to handle large complex data sets and learn non-linear relationships between variables. Dimensionality reduction is used to reduce the number of input features therefore decreasing the amount of data needed to train the network. Larger neural networs need more samples needed to fully train all the parameters in the model. DNA methylation samples are costly therefore dimesnionality reduction allowed neural networks to be trained with limited samples/budget. 
 
 ### UMAP Neural Network
 
@@ -71,13 +78,6 @@ The best UMAP trained neural network used all 16 components and achieved a stand
 
 ![UMAP Neural Network Plot](Images/UmapNnAccuracyPlot.jpg)
 
-### PCA Neural Network
-
-The best PCA trained neural network relied on a neural network with a 60 neural input layer, 4 hidden layers decreasing from 40 to 5, then an output layer. Three dropout layers were implemented between the first four layers to ensure the neural network did not over-train. The optimal model achieved a standard error of 5.378 years.
-
-
-
-![PCA Neural Network Plot](Images/PcaNnAccuracyPlot.jpg)
 
 
 ## Elastic-net regression 
