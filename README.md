@@ -48,11 +48,11 @@ The dataset contained 0.24% missing values which were imputed based on gender as
 
 ## Neural Networks 
 
-Neural networks can be applied to methylation data due to their ability to handle large complex data sets and learn non-linear relationships between variables. Dimensionality reduction is used to reduce the number of input features therefore decreasing the amount of data needed to train the network. Larger neural networs need more samples needed to fully train all the parameters in the model. DNA methylation samples are costly therefore dimesnionality reduction allowed neural networks to be trained with limited samples/budget. 
+Neural networks can be applied to methylation data due to their ability to handle large complex data sets and learn non-linear relationships between variables. Dimensionality reduction is used to reduce the number of input features therefore decreasing the amount of data needed to train the network. Larger neural networks need more samples needed to fully train all the parameters in the model. DNA methylation samples are costly therefore dimensionality reduction allowed neural networks to be trained with limited samples/budget. 
 
 ### Principal Component Analysis (PCA)
 
-Principal component analysis is first applied producing 255 principal components. The PCA plot of the first two components below displayed a significant male outlier that had a PCA 2 component of over 30 which was significantly larger than the remaining samples therefore it is concluded it is an outlier and removed. The PCA plot showed significant seperation of gender in the PCA 1 component and slight age seperation in the PCA 2 component. 
+Principal component analysis is first applied producing 255 principal components. The PCA plot of the first two components below displayed a significant male outlier that had a PCA 2 component of over 30 which was significantly larger than the remaining samples therefore it is concluded it is an outlier and removed. The PCA plot showed significant seperation of gender in the PCA 1 component and slight age separation in the PCA 2 component. 
 
 ![PCA plot](Images/PCAplot.png)
 
