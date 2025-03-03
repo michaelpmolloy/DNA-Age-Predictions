@@ -1,6 +1,7 @@
 
 # Predicting Age with DNA Methylation data
-I completed this analysis in my final semester at Curtin University as part of the "Industrial Project" (MATH3004) unit to complete my Bachelor of Science (Data Science) degree.
+My capstone project to complete my Bachelor of Science (Data Science) degree at Curtin university.
+
 ## Overview
 
 Analysis of different age prediction models using methylation levels present in human DNA. An elastic-net regression is created from the dataset. A neural network is trained using the first 60 principle components of Principle Component Analysis on the dataset. A second neural network is trained using the first 16 components of Uniform Manifold Approximation (UMAP) on the dataset. 
@@ -13,9 +14,11 @@ DNA methylation is an epigenetic process used by the body to influence gene expr
 
 
 
-
-
 ## Project Objective
+
+* Create an epigenetic clock model to predict chronological age from a person’s DNA methylation profile
+* Provide insight into the relative prediction accuracy of elastic-net and neural networks when applied to high-dimensional data sets
+* Compare the dimensionality reduction capabilities of principle component analysis to Uniform Manifold Approximation 
 
 The objective of this research is to create an epigenetic clock model to predict chronological age from a person’s DNA methylation profile. Elastic-net regression and neural networks will be used to model age, and the performance of both models compared.
 
@@ -50,7 +53,7 @@ The dataset contained 0.24% missing values which were imputed based on gender as
 
 Neural networks can be applied to methylation data due to their ability to handle large complex data sets and learn non-linear relationships between variables. Dimensionality reduction is used to reduce the number of input features therefore decreasing the amount of data needed to train the network. Larger neural networs need more samples needed to fully train all the parameters in the model. DNA methylation samples are costly therefore dimesnionality reduction allowed neural networks to be trained with limited samples/budget. 
 
-### Principal Component Analysis 
+### Principal Component Analysis (PCA)
 
 Principal component analysis is first applied producing 255 principal components. The PCA plot of the first two components below displayed a significant male outlier that had a PCA 2 component of over 30 which was significantly larger than the remaining samples therefore it is concluded it is an outlier and removed. The PCA plot showed significant seperation of gender in the PCA 1 component and slight age seperation in the PCA 2 component. 
 
@@ -65,7 +68,7 @@ The best PCA trained neural network relied on a neural network with a 60 neural 
 
 
 
-### UMAP 
+### Uniform Manifold Approximation (UMAP)
 
 The UMAP transformation is computationally expensive therefore 16 features were the maximum number of features it could produce. Through experimentation and testing a value of 20 neighbours was found to give the best results allowing both global and local features to be preserved in the reduced data. The optimal minimum distance was found to be 0.1. The resulting lower-dimensional dataset showed significant separation between gender and some separation of different ages as shown below. 
 
@@ -88,7 +91,14 @@ Elastic net regression is a linear hybrid regression technique which uses the La
 The elastic-net regression model is using the ‘glmnet’ package in R studio. The ‘cv.glmnet’ function uses 10 fold cross validation to train, test and optimise the model parameters while using only the training data. The optimal model achieved a standard error of 2.605 years and an R squared coefficient of 0.975. It used 102 different methylation sites to predict age. The predictions and real age values are visually presented below. The model was very accurate at predicting young people between the ages 10 to 20, however it was marginally less accurate at predicting older people between ages 35 to 60.
 
 
-![elastic-net prediction accuracy plot](Images/elasticNetAccuracy.jpg)
+![elastic-net prediction accuracy plot](Images/elasticNetAccuracyPlot.jpg)
+
+
+## Comparing models 
+
+The data contains two major age groups in the data with a young group and an old group. The PCA neural network and elastic-net were both able to accurately predict the age of younger people as shown in figure 10. The UMAP trained neural network did not predict the age of the young cohort accurately with most predictions being older than their real age. The accuracy of both neural networks reduced significantly when predicting the age of the older cohort. The elastic-net model outperformed both neural network models with very accurate predictions in the older cohort, and with only a small number of predictions having any significant error.
+
+
 
 
 
