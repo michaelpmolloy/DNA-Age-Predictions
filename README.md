@@ -97,7 +97,14 @@ The data contains two major age groups in the data with a young group and an old
 * **Model interpretability**: The elastic-net model was very interpretable as all the 102 parameters used to predict age relate to specific methylation levels at sites around the body. The elastic-net model therefore shows which methylation sites around the body are most correlated to age. The neural network was not very interpretable as the PCA input parameters are combinations of the original methylation site levels therefore inputs for the neural network cannot be traced to specific methylation site around the body like in the elastic net model.
 
 
-$~~~~~~~~~~~$
+<pre>
+
+
+
+
+
+
+<pre>
 
 ## Details and acknowledgments 
 
