@@ -71,7 +71,7 @@ The elastic-net regression model is using the ‘glmnet’ package in R studio. 
 
 ## Comparing models 
 
-The data contains two major age groups in the data with a young group and an old group. The PCA neural network and elastic-net were both able to accurately predict the age of younger people as shown in figure 10. The UMAP trained neural network did not predict the age of the young cohort accurately with most predictions being older than their real age. The accuracy of both neural networks reduced significantly when predicting the age of the older cohort. The elastic-net model outperformed both neural network models with very accurate predictions in the older cohort, and with only a small number of predictions having any significant error.
+The data contains two major age groups in the data with a young group and an old group. The PCA neural network and elastic-net were both able to accurately predict the age of younger people as shown in figure 10. The UMAP neural network did not predict the age of the young cohort accurately with most predictions being older than their real age. The accuracy of both neural networks reduced significantly when predicting the age of the older cohort. The elastic-net model outperformed both neural network models with very accurate predictions in the older cohort, and with only a small number of predictions having any significant error.
 
 
 ![all models prediction accuracy plot](Images/allModelsAccuracyPlot.png)
@@ -83,7 +83,7 @@ The data contains two major age groups in the data with a young group and an old
 
 * **Outlier detection**: The PCA plot was able to identify an outlier which once removed improved the predictions of both neural network models. The UMAP plot did not visually separate the outlier and grouped it with the other data.
 
-* **Neural net accuracy**: The PCA neural network performed accurately with a standard error of 5.38 which is significantly less than the UMAP neural networks standard error of 9.08, which indicates that the PCA reduction was able to retain more of the local and gloabl structure of the original data.
+* **Neural net accuracy**: The PCA neural network performed accurately with a standard error of 5.38 which is significantly less than the UMAP neural networks standard error of 9.08, which indicates that the PCA reduction was able to retain more of the local and global structure of the original data.
 
 * **Computational efficiency**: PCA was significantly more efficient at dimensionality reduction allowing the creation of up to 256 (limited to the number of samples provided to it) principle components. UMAP dimensionality reduction could produce a maximum of 16 components on the same machine indicating that UMAP dimensionality reduction takes significantly more computational power to produce components. 
 
