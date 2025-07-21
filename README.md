@@ -115,7 +115,7 @@ The dataset contained 0.24% missing values which were imputed based on gender as
 
 
 ### Optimisations 
-**Data structure**: The DNA dataset was 8GB when in the from of an R data frame. I transformed the data from a 'Data Frame' to a 'Numeric matrix' which reduced the data size from 8Gb to 1Gb. The 'Numeric matrix' data structure optimised the data structure making reading and writing the data frame which more efficient.
+**Data structure**: The DNA dataset was 8GB when in the from of an R data frame. I transformed the data from a 'Data Frame' to a 'Numeric matrix' which reduced the data size from 8Gb to 1Gb. The 'Numeric matrix' data structure optimised the data structure making reading and writing the data frame much more efficient.
 
 **Min-Max Scaling**: Scaling was applied to the data as neural networks trained with features of the same scale have improved gradient descent in the training of a neural network resulting in a faster convergence (Al-Faiz et al. 2018).
 
