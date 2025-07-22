@@ -90,7 +90,7 @@ The data contains two major age groups in the data with a young group and an old
 
 ### Elastic-net compared to neural networks (PCA neural network)
 
-* **Accuracy**: The elastic-net models significantly outperformed the best neural network model (PCA neural network) especially in the older cohort which the neural network struggled to give accurate predictions. 
+* **Accuracy**: The elastic-net model significantly outperformed the best neural network model (PCA neural network) especially in the older cohort which the neural network struggled to give accurate predictions. 
 
 * **Implementation**: The elastic was significantly easier to implement as it automatically performed feature selection and training, compared to neural networks which needed dimensionality reduction then training. 
 
