@@ -104,7 +104,7 @@ The data contains two major age groups in the data with a young group and an old
 
 ### Dataset 
 
-The data set used contains Illumina 450k DNA methylation array data. The dataset is from the Powell et al. (2012) study which studied the epigenetics of families and the heritable similarity between family member’s epigenetics. The data includes 257 samples of 450 000 variables from people between the ages of 10 and 75. The data is not independent as it includes the epigenetic profiles of families which may share heritable epigenetic traits. Due to the larg esize of the dataset 1.27Gb it is not provided in the repository 
+The data set used contains Illumina 450k DNA methylation array data. The dataset is from the Powell et al. (2012) study which studied the epigenetics of families and the heritable similarity between family member’s epigenetics. The data includes 257 samples of 450 000 variables from people between the ages of 10 and 75. The data is not independent as it includes the epigenetic profiles of families which may share heritable epigenetic traits. Due to the large size of the dataset 1.27Gb it is not provided in the repository 
 
 ### Data Cleaning and Preprocessing 
 
